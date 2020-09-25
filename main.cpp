@@ -62,12 +62,8 @@ int main()
     /*vector konteineris*/
     cout << "Iveskite varda, pavarde: \n";
     cin >> Eil.vard >> Eil.pav;
-    if (ar(Eil.vard))
-        cout << "Netinkamas vardas\n";
-    else
-        cout << Eil.vard << "   " << Eil.pav << endl;
-    if (ar(Eil.pav))
-        cout << "Netinkama pavarde \n";
+    if ((ar(Eil.vard)) || (ar(Eil.pav)))
+        cout << "Netinkamai ivestas vardas ar pavarde.\n";
     else
         cout << Eil.vard << "   " << Eil.pav;
 
