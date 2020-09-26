@@ -1,15 +1,21 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <string>
+#include <vector>
+#include <sstream>
+#include <string>
 
 using namespace std;
 using std:: cout;
 using std:: cin;
 using std:: endl;
+using std:: vector;
+using std:: string;
 
 struct duomuo {
     string vard, pav;
-    int paz, egz, gen, skc;
+    int paz[10], egz, gen, skc;
     float gp = 0;
 };
 
@@ -51,7 +57,13 @@ int main()
     cin >> Eil.skc;
     if (Eil.skc == 1) /*skaiciuosim vidurki*/
     {
-
+        for (int i=0; i<n; i++)
+            {
+                cin >> Eil.paz[i];
+                Eil.gp = Eil.gp + (float) Eil.paz[i];
+            }
+        Eil.gp = Eil.gp / 5.0;
+        Eil.gp = Eil.gp * 0.4 + 0.6 * Eil.egz;
     }
     else if (Eil.skc == 2) /*skaiciuosim mediana*/
     {
@@ -59,13 +71,24 @@ int main()
     }
     else
         cout << "Nepasirinkote ka norite skaiciuoti.\n";
-    /*vector konteineris*/
+
+
+    /*vector konteineris, neveikia iki galo*/
+    vector<int> Eil_vect;
+    string buffer;
+    std::getline(cin, buffer);
+    std::istringstream iss(buffer);
+    while (iss >> Eil.paz)
+          Eil_vect.push_back(EIl.paz);
+    foo(Eil_vect);
+
+
     cout << "Iveskite varda, pavarde: \n";
     cin >> Eil.vard >> Eil.pav;
     if ((ar(Eil.vard)) || (ar(Eil.pav)))
         cout << "Netinkamai ivestas vardas ar pavarde.\n";
     else
-        cout << Eil.vard << "   " << Eil.pav;
+        cout << "Ivestas tinkamas vardas ir pavarde.\n";
 
     char a;
     cin >> a;
