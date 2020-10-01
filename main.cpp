@@ -71,7 +71,7 @@ int main()
     {
         ifstream indata; /*indata = cin*/
         int num; /*variable for input value*/
-        indata.open("example.dat");
+        indata.open("kursiokai.txt");
         if(!indata)
         {
             cerr << "Error: failo nepavyko atidaryti" << endl;
