@@ -25,8 +25,16 @@ void stringT (std::ifstream &df, string a, bool &fail, int eil);
 void nd(std::ifstream &df,vector<duomuo> &duom, int x, int y, bool &fail, int eil);
 void egz(std::ifstream &df,std::vector<duomuo> &duom, int y, bool &fail, int eil);
 int ndSk(std::ifstream &df);
-void failas(vector<duomuo> &duom, int &VAR, int &PAV);
+
+void generuotiF(int x);
+
+void failas(vector<duomuo> &duom, int &VAR, int &PAV, int n);
 void rikiuoti(vector<duomuo>& duom);
-void spausdinti(vector<duomuo> duom, int VAR, int PAV);
+
+void rusiuoti(vector<duomuo>& duom);
+void skirstyti(vector<duomuo>& duom, vector<duomuo> &nuskriaustukai, int x);
+
+
+void spausdinti(vector<duomuo> duom, vector<duomuo> nuskriaustukai, int VAR, int PAV);
 
 #endif // STRUCT_HEADER_H_INCLUDED
