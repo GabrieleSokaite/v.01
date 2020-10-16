@@ -264,7 +264,7 @@ int ndSk(std::ifstream &df){
     return n;
 }
 
-void failas(vector<duomuo> &duom, int &VAR, int &PAV){
+void failas(vector<duomuo> &duom, int &VAR, int &PAV, int n){
     std::ifstream df (data);
     duom.reserve(100);
     int i=0, eil=0, n = ndSk(df);
@@ -293,25 +293,47 @@ void failas(vector<duomuo> &duom, int &VAR, int &PAV){
     duom.shrink_to_fit();
 };
 
-void rikiuoti(vector<duomuo>& duom) {
-    sort(duom.begin(), duom.end(), [](const duomuo &lhs, const duomuo &rhs) {
-        if (lhs.vard != rhs.vard) {
-            return lhs.vard < rhs.vard;
-        } else {
-            return lhs.pav < rhs.pav;
-        }
-    });
+void rusiuoti(vector<duomuo>& duom)
+{
+    sort(duom.begin(), duom.end(), [](const duomuo &lhs, const duomuo &rhs)
+         {
+             return (lhs.vidG > rhs.vidG);
+         });
 };
 
-void spausdinti(vector<duomuo> duom, int VAR, int PAV){
-    rikiuoti(duom);
-    cout << endl;
-    cout << std::left << std::setw(VAR + 3) << "vardas";
-    cout << std::setw(PAV + 3) << "Pavarde" << std::setw(10) << "Galutinis(VID)   " << std::setw(10) << "Galutinis(MED)" << endl;
-    for(int w=0;w<(VAR+PAV+6+31);w++) cout << "-";cout <<endl;
-    for (auto &i : duom) {
-        cout << std::left <<  std::setw(VAR+3) << i.vard << std::setw(PAV+3) << i.pav;
-        cout << std::setw(17) << std::fixed << std::setprecision(2) << i.vidG;
-        cout << std::setw(10) << std::fixed << std::setprecision(2) << i.medG << endl;
+void skirstyti(vector<duomuo>& duom, vector<duomuo> & nuskriaustukai, int x)
+{
+    rusiuoti(duom);
+    int i = x, k = 0;
+    while (duom[i].vidG < 5)
+    {
+        k++;
+        i--;
     }
+    std::move(duom.end()-k, duom.end(), std::back_inserter(nuskriaustukai));
+    duom.erase (duom.end()-k, duom.end());
+}
+
+void spausdinti(vector<duomuo> duom, vector<duomuo> nuskriaustukai, int VAR, int PAV){
+    std::ofstream gs ("kietiakai.txt");
+    std::ofstream bs ("nuskriaustukai.txt");
+
+    gs << std::left << std::setw(VAR + 3) << "vardas";
+    gs << std::setw(PAV + 3) << "Pavarde" << std::setw(10) << "Galutinis(VID)   " << endl;
+    for(int w=0;w<(VAR+PAV+6+14);w++) gs << "-";
+    gs <<endl;
+    for (auto &i : duom) {
+        gs << std::left <<  std::setw(VAR+3) << i.vard << std::setw(PAV+3) << i.pav;
+        gs << std::setw(17) << std::fixed << std::setprecision(2) << i.vidG << endl;
+    }
+    gs.close();
+    bs << std::left << std::setw(VAR + 3) << "vardas";
+    bs << std::setw(PAV + 3) << "Pavarde" << std::setw(10) << "Galutinis(VID)   " << endl;
+    for(int w=0;w<(VAR+PAV+6+14);w++) bs << "-";
+    bs <<endl;
+    for (auto &i : nuskriaustukai) {
+        bs << std::left <<  std::setw(VAR+3) << i.vard << std::setw(PAV+3) << i.pav;
+        bs << std::setw(17) << std::fixed << std::setprecision(2) << i.vidG << endl;
+    }
+    bs.close();
 };
