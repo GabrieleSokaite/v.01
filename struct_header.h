@@ -25,8 +25,14 @@ void stringT (std::ifstream &df, string a, bool &fail, int eil);
 void nd(std::ifstream &df,vector<duomuo> &duom, int x, int y, bool &fail, int eil);
 void egz(std::ifstream &df,std::vector<duomuo> &duom, int y, bool &fail, int eil);
 int ndSk(std::ifstream &df);
-void failas(vector<duomuo> &duom, int &VAR, int &PAV);
+
+void failasG(int x);
+void failasS(vector<duomuo> &duom, int &VAR, int &PAV, int n);
 void rikiuoti(vector<duomuo>& duom);
-void spausdinti(vector<duomuo> duom, int VAR, int PAV);
+void rusiuoti(vector<duomuo>& duom);
+void skirstyti(vector<duomuo>& duom, vector<duomuo> &nuskriaustukai, int x);
+void spausdinti(vector<duomuo> duom, vector<duomuo> nuskriaustukai, int VAR, int PAV);
+void start_c(std::chrono::time_point<std::chrono::high_resolution_clock> &start);
+void end_c(std::chrono::time_point<std::chrono::high_resolution_clock> &end);
 
 #endif // STRUCT_HEADER_H_INCLUDED

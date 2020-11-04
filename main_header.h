@@ -9,6 +9,9 @@
 #include <iomanip>
 #include <algorithm>
 #include <random>
+#include <chrono>
+#include <list>
+#include <deque>
 
 using std:: cout;
 using std:: cin;
