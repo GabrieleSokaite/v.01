@@ -1,5 +1,5 @@
-#ifndef MAIN_HEADER_H_INCLUDED
-#define MAIN_HEADER_H_INCLUDED
+#ifndef LIST_HEADER_H_INCLUDED
+#define LIST_HEADER_H_INCLUDED
 
 #include <utility>
 #include <iostream>
@@ -9,13 +9,16 @@
 #include <iomanip>
 #include <algorithm>
 #include <random>
+#include <chrono>
+#include <list>
+#include <deque>
+#include <numeric>
 
-using std:: cout;
-using std:: cin;
-using std:: string;
-using std:: vector;
-using std:: cerr;
-using std:: endl;
+using std::string;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::vector;
 
 #define data "kursiokai.txt"
 
