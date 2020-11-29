@@ -1,7 +1,7 @@
-#include "main_header.h"
-#include "struct_header.h"
+#include "../headers/main_header.h"
+#include "../headers/struct_header.h"
 
-double mediana(vector<duomuo> duom, int x, int y)
+double mediana(std::vector<duomuo> duom, int x, int y)
 {
     double med;
     sort(duom[y].nd.begin(), duom[y].nd.end());
@@ -22,7 +22,7 @@ bool netinka(const string a)
     return true;
 }
 
-void genND(vector<duomuo>&duom, int x, int y)
+void genND(std::vector<duomuo>&duom, int x, int y)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -35,7 +35,7 @@ void genND(vector<duomuo>&duom, int x, int y)
     }
 }
 
-void genEG(vector<duomuo>&duom, int y)
+void genEG(std::vector<duomuo>&duom, int y)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -44,7 +44,7 @@ void genEG(vector<duomuo>&duom, int y)
     duom[y].egz=random(gen);
 }
 
-double ndSum(vector<duomuo> duom, int x, int y)
+double ndSum(std:;vector<duomuo> duom, int x, int y)
 {
     double sum=0;
     for (int z=0; z<x; z++)
@@ -54,160 +54,11 @@ double ndSum(vector<duomuo> duom, int x, int y)
     return sum;
 }
 
-void GP(vector<duomuo>& duom, int x, int y)
+void GP(std::vector<duomuo>& duom, int x, int y)
 {
     duom[y].vidG=0.4*ndSum(duom,x,y)/x+0.6*duom[y].egz;
     duom[y].medG=0.4*mediana(duom,x,y) + 0.6 * duom[y].egz;
 }
-
-void vardT(vector<duomuo>&duom, int y)
-{
-    cout << "Iveskite varda: \n";
-    cin >> duom[y].vard;
-    while (!netinka(duom[y].vard))
-        {
-            cout << "Vardas netinka. Ivesti kita: \n";
-            cin.clear();
-            cin.ignore(256, '\n');
-            cin >> duom[y].vard;
-        }
-}
-
-void pavT(vector<duomuo>&duom, int y)
-{
-    cout << "Iveskite pavarde: \n";
-    cin >> duom[y].pav;
-    while (!netinka(duom[y].pav))
-        {
-            cout << "Pavarde netinka. Ivesti kita: \n";
-            cin.clear();
-            cin.ignore(256, '\n');
-            cin >> duom[y].pav;
-        }
-}
-
-void tikrinimas (int &f)
-{
-    while (f!=0 && f!=1)
-    {
-        cout << "Ivestas netinkamas simbolis. \n";
-        cin >> f;
-    }
-}
-
-void egzI(vector<duomuo>& duom, int y, int f){
-    if (f==1)
-        {
-            while(true)
-            {
-                int eg = 0;
-                cout << "Iveskite egzamino rezultata: \n";
-                cin >> eg;
-                if( !cin.fail() && eg>= 0 && eg <= 10)
-                {
-                    if(eg!=0)
-                    {
-                        duom[y].egz = eg;
-                        break;
-                    }
-                }
-                else
-                    {
-                        cout << "Netinkamas pazymys. \n";
-                        cin.clear();
-                        cin.ignore(256, '\n');
-                        continue;
-                    }
-            }
-        }
-        else if(f==0)
-            {
-                genEG(duom,y);
-            }
-}
-
-void ndI(vector<duomuo>& duom, int y, int f){
-    int k=0, q=1;
-    if (f==1)
-        {
-            cout << "Ivedus nd rezultatus spausti 0. \n";
-            while(q!=0)
-            {
-                cout << "Iveskite nd pazymius: \n";
-                cin >> q;
-                if( !cin.fail() && q>= 0 && q <= 10)
-                {
-                    if(q!=0)
-                    {
-                        duom[y].nd.push_back(q);
-                        k++;
-                    }
-                }
-                else
-                    {
-                        cout << "Netinkamas nd pazymys. \n";
-                        cin.clear();
-                        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                        q=1;
-                        continue;
-                    }
-            }
-            GP(duom,k,y);
-        }
-        else if(f==0)
-        {
-            cout << "Iveskite kiek nd pazymiu norite generuoti: \n";
-            int n=0;
-            while(true)
-            {
-                cin >> n;
-                if (!cin.fail() && n!=0)
-                    {
-                        break;
-                    }
-                else
-                    {
-                        cout << "Ivestis bloga. Ivesti skaiciu: \n";
-                        cin.clear();
-                        cin.ignore(256, '\n');
-                        continue;
-                    }
-           }
-           genND(duom,n,y);
-           GP(duom,n,y);
-        }
-}
-
-void generuoti(vector<duomuo>&duom, int &VAR, int &PAV)
-{
-    int i=0, pr=0;
-    duom.reserve(100);
-    while(true)
-    {
-        cout << "Norint prideti varda ir pavarde spausti 1, o uzbaigimui 0: \n";
-        cin >> pr;
-        if (pr == 1)
-        {
-            duom.emplace_back(duomuo());
-            int f;
-            vardT(duom,i);
-            pavT(duom,i);
-            if(duom[i].vard.length()>VAR) VAR=duom[i].vard.length();
-            if(duom[i].pav.length()>PAV) PAV=duom[i].pav.length();
-            cout<< "Ivesti egzamino pazymi ranka spausti 1, generavimui 0: \n";
-            cin >> f;
-            vardT(f);
-            egzI(duom,i,f);
-            cout << "Ivesti nd pazymius ranka spausti 1, generavimui 0: \n";
-            cin >> f;
-            tikrinimas(f);
-            ndI(duom,i,f);
-            i++;
-        }
-        else break;
-    }
-    duom.shrink_to_fit();
-};
 
 void stringT (std::ifstream &df, string a, bool &fail, int eil)
 {
@@ -216,11 +67,11 @@ void stringT (std::ifstream &df, string a, bool &fail, int eil)
             df.clear();
             df.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             fail=true;
-            cout << "Netinkamas vardas ir pavarde " << eil << "eiluteje. Duomenys nenuskaityti. \n";
+            cout << "Netinkamas vardas arba pavarde " << eil << "eiluteje. Duomenys nenuskaityti. \n";
        }
 }
 
-void nd(std::ifstream &df,vector<duomuo> &duom, int x, int y, bool &fail, int eil){
+void nd(std::ifstream &df,std::vector<duomuo> &duom, int x, int y, bool &fail, int eil){
     int q=0;
     for(int j=0; j<x; j++){
         df >> q;
@@ -264,54 +115,129 @@ int ndSk(std::ifstream &df){
     return n;
 }
 
-void failas(vector<duomuo> &duom, int &VAR, int &PAV){
+void failasG(int x) {
+    std::ofstream gf(data);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> random(1, 10);
+    int a, b;
+    gf << std::left << std::setw(14) << "Vardas" << std::setw(15) << "Pavarde" << "ND1 ND2 ND3 ND4 ND5 ND6 Egzaminas" << endl;
+    for (int i=1; i <= x; i++) {
+        gf << "Vardas" << std::setw(8) << i << "Pavarde" << std:setw(8) << i;
+        for (int j=0; j<6; j++) {
+            a = random(gen);
+            gf << std::setw(4) << a;
+        }
+        b = random(gen);
+        gf << b << endl;
+    }
+    gf.close();
+}
+
+void failasS(std::vector<duomuo> &duom, int &VAR, int &PAV, int n){
     std::ifstream df (data);
-    duom.reserve(100);
+    if (!df) throw "Duomenu failas nerastas";
+    duom.reserve(n);
     int i=0, eil=0, n = ndSk(df);
     duom.emplace_back(duomuo());
     while(true){
-        bool fail = false;
         if(df.eof()==1) break;
         eil++;
-        df >> duom[i].vard;
-        stringT(df, duom[i].vard,fail,eil);
-        if(fail)continue;
-        df >> duom[i].pav;
-        stringT(df, duom[i].pav,fail,eil);
-        if(fail)continue;
+        df >> duom[i].vard >> duom[i].pav;
         if(duom[i].vard.length()>VAR) VAR = duom[i].vard.length();
-        if(duoom[i].pav.length()>PAV) PAV = duom[i].pav.length();
-        nd(df,duom,n,i,fail,eil);
-        if(fail)continue;
-        egz(df,duom,i,fail,eil);
-        if(fail)continue;
-        GP(duom,n,i);
-        if(df.eof()==1) break;
+        if(duom[i].pav.length()>PAV) PAV = duom[i].pav.length();
+        int q, sum=0;
+        for (int u=0; u<6; u++) {
+            df >> q;
+            duom[i].nd.emplace_back(q);
+            sum = sum + q;
+        }
+        df >> duom[i].egz;
+        duom[i].vidG = 0.4 * sum/n + 0.6 * duom[i].egz;
+        if (df.eof() == 1) break;
         i++;
         duom.emplace_back(duomuo());
     }
+    df.seekg(0);
+    df.clear();
     duom.shrink_to_fit();
 };
 
-void rikiuoti(vector<duomuo>& duom) {
-    sort(duom.begin(), duom.end(), [](const duomuo &lhs, const duomuo &rhs) {
-        if (lhs.vard != rhs.vard) {
-            return lhs.vard < rhs.vard;
-        } else {
-            return lhs.pav < rhs.pav;
-        }
-    });
+void rusiuoti(std::vector<duomuo>& duom)
+{
+    sort(duom.begin(), duom.end(), [](const duomuo &lhs, const duomuo &rhs)
+         {
+             return (lhs.vidG > rhs.vidG);
+         });
 };
 
-void spausdinti(vector<duomuo> duom, int VAR, int PAV){
-    rikiuoti(duom);
-    cout << endl;
-    cout << std::left << std::setw(VAR + 3) << "vardas";
-    cout << std::setw(PAV + 3) << "Pavarde" << std::setw(10) << "Galutinis(VID)   " << std::setw(10) << "Galutinis(MED)" << endl;
-    for(int w=0;w<(VAR+PAV+6+31);w++) cout << "-";cout <<endl;
-    for (auto &i : duom) {
-        cout << std::left <<  std::setw(VAR+3) << i.vard << std::setw(PAV+3) << i.pav;
-        cout << std::setw(17) << std::fixed << std::setprecision(2) << i.vidG;
-        cout << std::setw(10) << std::fixed << std::setprecision(2) << i.medG << endl;
+void skirstyti(std::vector<duomuo>& duom, std::vector<duomuo> & nuskriaustukai, int x)
+{
+    rusiuoti(duom);
+    int i = x, k = 0;
+    while (duom[i].vidG < 5)
+    {
+        k++;
+        i--;
     }
+    std::move(duom.end()-k, duom.end(), std::back_inserter(nuskriaustukai));
+    duom.erase (duom.end()-k, duom.end());
+}
+
+void skirstyti2(std::vector<duomuo>& duom, std::vector<duomuo> & nuskriaustukai, std::vector<duomuo>& galvociai, int x)
+{
+    rusiuoti(duom);
+    int i = x, k = 0;
+    while (duom[i].vidG < 5)
+    {
+        k++;
+        i--;
+    }
+    std::move(duom.end()-k, duom.end(), std::back_inserter(nuskriaustukai));
+    std::move(duom.begin(), duom.end()-k-1, std::back_inserter(galvociai));
+}
+
+bool negavoSkolos(const duomuo& s)
+{
+    return s.vidG > 5;
+}
+
+std::vector<duomuo> nuskriaustukai(std::vector<duomuo>& duom)
+{
+    std::vector<duomuo>::iterator it = stable_partition(duom.begin(), duom.end(), negavoSkolos);
+    std::vector<duomuo> minksti(it, duom.end());
+    duom.erase(it, duom.end());
+    return minksti;
+}
+
+void spausdinti(std::vector<duomuo> duom, std::vector<duomuo> nuskriaustukai, int VAR, int PAV){
+    std::ofstream gs ("kietiakai.txt");
+    std::ofstream bs ("nuskriaustukai.txt");
+
+    gs << std::left << std::setw(VAR + 3) << "vardas";
+    gs << std::setw(PAV + 3) << "Pavarde" << std::setw(10) << "Galutinis(VID)   " << endl;
+    for(int w=0;w<(VAR+PAV+6+14);w++) gs << "-";
+    gs <<endl;
+    for (auto &i : duom) {
+        gs << std::left <<  std::setw(VAR+3) << i.vard << std::setw(PAV+3) << i.pav;
+        gs << std::setw(17) << std::fixed << std::setprecision(2) << i.vidG << endl;
+    }
+    gs.close();
+    bs << std::left << std::setw(VAR + 3) << "vardas";
+    bs << std::setw(PAV + 3) << "Pavarde" << std::setw(10) << "Galutinis(VID)   " << endl;
+    for(int w=0;w<(VAR+PAV+6+14);w++) bs << "-";
+    bs <<endl;
+    for (auto &i : nuskriaustukai) {
+        bs << std::left <<  std::setw(VAR+3) << i.vard << std::setw(PAV+3) << i.pav;
+        bs << std::setw(17) << std::fixed << std::setprecision(2) << i.vidG << endl;
+    }
+    bs.close();
 };
+
+void start_c(std::chrono::time_point<std::chrono::high_resolution_clock> &start) {
+    start = std:chrono::high_resolution_clock::now();
+}
+
+void end_c(std::chrono::time_point<std::chrono::high_resolution_clock> &end) {
+    end = std:chrono::high_resolution_clock::now();
+}
