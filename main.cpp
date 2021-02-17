@@ -1,24 +1,33 @@
-#include "main_header.h"
-#include "struct_header.h"
+#include <iostream>
 
-int main()
-{
-    vector<duomuo> duom;
-    int VAR=0, PAV=0;
-    bool err=false;
+using namespace std;
 
-    try
-    {
-        failas (duom, VAR, PAV);
-    }
-    catch (const char* error)
-    {
-        cerr << error << endl;
-        if(error) err=true;
-        generuoti (duom, VAR, PAV);
-        spausdinti (duom, VAR, PAV);
-    }
-    if(!err)spausdinti(duom, VAR, PAV);
+class kvepalai {
+  private:
+    string baze;
+    string santykis;
+  public:
+    void setBaze(string b){baze = b;}
+    void setSantykis (string s){santykis= s;}
+    string baz() {return baze;}
+    string santyk() {return santykis;}
+    void pakeisti(string z, string pav){if (baze == z) baze = pav;}
+};
 
-    return 0;
-}
+class Dior : public kvepalai
+ {
+  private:
+      string pavadinimas;
+      double kaina;
+  public:
+      void setPav(string p){pavadinimas = p;}
+      void setKaina (double k){kaina = k;}
+      string pav() {return pavadinimas;}
+      double kain() {return kaina;}
+      friend std::istream& operator>>(std::istream& cin, Dior &a) {
+        in >> a.pavadinimas >> a.kaina;
+        return cin ;}
+      friend std::ostream& operator<<(std::ostream& cout, Dior &a) {
+        out << a.pavadinimas << a.kaina;
+        return cout ;}
+ };
